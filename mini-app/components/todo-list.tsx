@@ -5,6 +5,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { CalendarView } from "@/components/calendar-view";
+import { TaskGraph } from "@/components/task-graph";
+import { Reminder } from "@/components/reminder";
 import { Button } from "@/components/ui/button";
 
 interface Task {
@@ -112,7 +115,14 @@ export function TodoList() {
           </div>
         ))}
       </CardContent>
-      <div className="flex gap-2 mt-4">
+      <div className="flex flex-col gap-4 mt-4">
+        <div className="text-sm text-muted-foreground">
+          Productivity: {Math.round((tasks.filter(t => t.completed).length / tasks.length) * 100)}%
+        </div>
+        <TaskGraph tasks={tasks} />
+        <Reminder tasks={tasks} />
+        <CalendarView tasks={tasks} />
+        <div className="flex gap-2 mt-4">
         <Button
           variant="outline"
           onClick={() => {
