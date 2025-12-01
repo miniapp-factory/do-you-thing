@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface Task {
   id: number;
@@ -47,6 +48,32 @@ export function TodoList() {
     );
   };
 
+  const [recentTask, setRecentTask] = useState<Task | null>(null);
+
+  const addTask = (title: string, deadline: string, priority: "High" | "Medium" | "Low") => {
+    const newTask: Task = {
+      id: tasks.length ? tasks[tasks.length - 1].id + 1 : 1,
+      title,
+      deadline,
+      priority,
+      completed: false,
+    };
+    setTasks((prev) => [...prev, newTask]);
+    setRecentTask(newTask);
+  };
+
+  const showRecentTask = () => {
+    if (recentTask) {
+      alert(`Recent Task: ${recentTask.title} (Due: ${recentTask.deadline})`);
+    } else {
+      alert("No recent task added yet.");
+    }
+  };
+
+  const openCalendar = () => {
+    alert("Calendar view is not implemented yet.");
+  };
+
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
@@ -85,6 +112,31 @@ export function TodoList() {
           </div>
         ))}
       </CardContent>
+      <div className="flex gap-2 mt-4">
+        <Button
+          variant="outline"
+          onClick={() => {
+            const title = prompt("Task title:");
+            if (!title) return;
+            const deadline = prompt("Deadline (YYYY-MM-DD):");
+            if (!deadline) return;
+            const priority = prompt("Priority (High, Medium, Low):") as
+              | "High"
+              | "Medium"
+              | "Low";
+            if (!priority) return;
+            addTask(title, deadline, priority);
+          }}
+        >
+          Add Task
+        </Button>
+        <Button variant="outline" onClick={showRecentTask}>
+          Show Recent Task
+        </Button>
+        <Button variant="outline" onClick={openCalendar}>
+          Calendar
+        </Button>
+      </div>
     </Card>
   );
 }
