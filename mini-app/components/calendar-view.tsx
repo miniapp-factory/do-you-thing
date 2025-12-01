@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 export function CalendarView({ tasks }: { tasks: any[] }) {
   const [currentDate] = useState(new Date());
@@ -8,6 +8,7 @@ export function CalendarView({ tasks }: { tasks: any[] }) {
   const daysInMonth = new Date(year, month + 1, 0).getDate();
 
   const weeks: number[][] = [];
+  const taskDates = new Set(tasks.map((t) => t.deadline));
   let day = 1 - firstDay;
   while (day <= daysInMonth) {
     const week: number[] = [];
@@ -31,18 +32,31 @@ export function CalendarView({ tasks }: { tasks: any[] }) {
         ))}
         {weeks.map((week, i) => (
           <React.Fragment key={i}>
-            {week.map((d, j) => (
-              <div
-                key={j}
-                className={`p-1 rounded ${
-                  d > 0 && d <= daysInMonth
-                    ? "bg-muted hover:bg-muted/80 cursor-pointer"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {d > 0 && d <= daysInMonth ? d : ""}
-              </div>
-            ))}
+            {week.map((d, j) => {
+              const dateString = new Date(year, month, d).toISOString().split("T")[0];
+              const hasTask = taskDates.has(dateString);
+              return (
+                <div
+                  key={j}
+                  className={`p-1 rounded ${
+                    d > 0 && d <= daysInMonth
+                      ? "bg-muted hover:bg-muted/80 cursor-pointer"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {d > 0 && d <= daysInMonth ? (
+                    <>
+                      {d}
+                      {hasTask && (
+                        <span className="inline-block w-1 h-1 rounded-full bg-primary ml-1" />
+                      )}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              );
+            })}
           </React.Fragment>
         ))}
       </div>

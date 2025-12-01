@@ -73,9 +73,6 @@ export function TodoList() {
     }
   };
 
-  const openCalendar = () => {
-    alert("Calendar view is not implemented yet.");
-  };
 
   return (
     <Card className="w-full max-w-2xl">
@@ -142,9 +139,6 @@ export function TodoList() {
         </Button>
         <Button variant="outline" onClick={showRecentTask}>
           Show Recent Task
-        </Button>
-        <Button variant="outline" onClick={openCalendar}>
-          Calendar
         </Button>
       </div>
     </Card>
