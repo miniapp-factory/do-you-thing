@@ -1,6 +1,7 @@
 import { description, title } from "@/lib/metadata";
 import { generateMetadata } from "@/lib/farcaster-embed";
 import { TodoList } from "@/components/todo-list";
+import { TaskMenu } from "@/components/task-menu";
 
 export { generateMetadata };
 
@@ -11,6 +12,7 @@ export default function Home() {
       <span className="text-2xl">{title}</span>
       <span className="text-muted-foreground">{description}</span>
       <TodoList />
+      <TaskMenu />
     </main>
   );
 }
